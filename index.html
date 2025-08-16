@@ -13,25 +13,36 @@
       --glass:rgba(255,255,255,.06); --ring:rgba(110,231,255,.45);
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:radial-gradient(1200px 800px at 80% -10%, #173356, transparent 60%), linear-gradient(180deg,#0b1220 0%, #0b1220 40%, #0e1420 100%);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;}
+    body{
+      background:
+        radial-gradient(1200px 800px at 80% -10%, #173356, transparent 60%),
+        linear-gradient(180deg,#0b1220 0%, #0b1220 40%, #0e1420 100%);
+      color:var(--ink);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+    }
     a{color:var(--brand2);text-decoration:none}
     a:hover{text-decoration:underline}
     .wrap{max-width:1080px;margin:auto;padding:24px}
 
     /* HEADER */
-    header{position:relative;border-radius:24px;overflow:hidden;margin:8px 0 20px;
+    header{
+      position:relative;border-radius:24px;overflow:hidden;margin:8px 0 20px;
       background:linear-gradient(135deg, rgba(59,130,246,.25), rgba(110,231,255,.12));
       box-shadow: 0 10px 40px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.05);
-      isolation:isolate;}
-    .hgrid{display:grid;gap:24px;padding:28px;
-      grid-template-columns:1.2fr .8fr;
-      grid-template-areas:"id avatar";align-items:center;}
+      isolation:isolate;
+    }
+    .hgrid{
+      display:grid;gap:24px;padding:28px;
+      grid-template-columns:1.2fr .8fr;grid-template-areas:"id avatar";align-items:center;
+    }
     .id{grid-area:id}
     .id h1{font-size:clamp(28px, 3.5vw, 48px); margin-bottom:8px; line-height:1.05}
     .tagline{color:var(--muted);margin-bottom:10px}
-    .id .tag{display:inline-block;padding:6px 10px;border-radius:999px;
+    .id .tag{
+      display:inline-block;padding:6px 10px;border-radius:999px;
       background:linear-gradient(120deg,rgba(59,130,246,.25),rgba(110,231,255,.2));
-      border:1px solid rgba(255,255,255,.12);margin:6px 6px 0 0;font-weight:600;color:#dff6ff}
+      border:1px solid rgba(255,255,255,.12);margin:6px 6px 0 0;font-weight:600;color:#dff6ff
+    }
     .divider{height:1px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);margin:18px 0}
     .meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-size:14px;color:var(--muted)}
     .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:var(--glass)}
@@ -46,9 +57,11 @@
     @keyframes glow{from{box-shadow:0 0 10px var(--brand1);}to{box-shadow:0 0 25px var(--brand2);}}
 
     /* SECTIONS */
-    .section{margin:28px 0;padding:22px;border-radius:20px;
+    .section{
+      margin:28px 0;padding:22px;border-radius:20px;
       background-color:rgba(2,6,23,.35);border:1px solid rgba(255,255,255,.06);
-      box-shadow:0 10px 30px rgba(0,0,0,.25)}
+      box-shadow:0 10px 30px rgba(0,0,0,.25)
+    }
     .section h2{margin:0 0 12px;font-size:clamp(18px,2.2vw,26px)}
 
     .timeline{position:relative;padding-left:24px}
@@ -57,7 +70,7 @@
     .item.reveal{opacity:1;transform:none}
     .item:before{content:"";position:absolute;left:-11px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--brand2);box-shadow:0 0 0 4px rgba(110,231,255,.18)}
 
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px;margin-bottom:14px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px;margin-bottom:14px;break-inside:avoid}
     .card h3{margin:0 0 8px;font-size:18px}
     .kbadges{display:flex;flex-wrap:wrap;gap:8px}
     .kbadges .b{font-size:12px;border:1px dashed rgba(255,255,255,.18);padding:6px 8px;border-radius:10px;background:rgba(255,255,255,.04)}
@@ -78,6 +91,99 @@
       .cta{justify-content:center}
       .gridcards>.card{grid-column:span 12}
     }
+
+    /* ===== PRINT / PDF MODE (A4, full-bleed header, centered hero, dark theme) ===== */
+    @page{ size:A4; margin:0; }
+    @media print{
+      /* Keep dark theme and gradient */
+      html, body{
+        background:#0e1420 !important;
+        -webkit-print-color-adjust:exact; print-color-adjust:exact;
+        color:var(--ink) !important;
+      }
+      body::before{
+        content:""; position:fixed; inset:0; z-index:-1;
+        background:
+          radial-gradient(1200px 800px at 80% -10%, #173356, transparent 60%),
+          linear-gradient(180deg,#0b1220 0%, #0b1220 40%, #0e1420 100%);
+      }
+
+      /* Page container */
+      .wrap{
+        max-width:none; width:210mm; margin:0; padding:12mm 12mm 10mm;
+        line-height:1.24;
+      }
+
+      /* Full-bleed header + centered profile for PDF only */
+      header{
+        border-radius:0; box-shadow:none; border:0;
+        margin: -12mm -12mm 6mm;          /* bleed */
+        padding: 14mm 12mm 10mm;
+        background:linear-gradient(135deg, rgba(59,130,246,.25), rgba(110,231,255,.12));
+      }
+      .hgrid{
+        padding:0;
+        gap:6mm;
+        grid-template-columns:1fr;        /* single column in print */
+        grid-template-areas:
+          "avatar"
+          "id";
+        justify-items:center;             /* center avatar & text */
+        text-align:center;
+      }
+      .id{ max-width:160mm; }
+      .id h1{ font-size:22pt }
+      .tagline{ color:var(--muted) }
+
+      .id .tag{ padding:4px 8px; margin:3px 4px; display:inline-block; border-color:rgba(255,255,255,.18) }
+
+      /* Center contact chips as one row that wraps neatly */
+      .meta{
+        display:flex; flex-wrap:wrap; gap:4mm; justify-content:center;
+        font-size:10pt; color:var(--muted)
+      }
+
+      .divider{ margin:4mm 0; background:rgba(255,255,255,.18) }
+
+      .avatar img{
+        width:46mm; height:46mm; border-radius:50%;
+        border:2px solid var(--brand2); box-shadow:0 0 10px rgba(110,231,255,.35); animation:none;
+      }
+
+      /* Sections */
+      .section{
+        background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12);
+        box-shadow:none; margin:4mm 0; padding:4mm; border-radius:8px;
+      }
+      .section h2{ font-size:12pt; margin-bottom:3mm }
+
+      .timeline{ padding-left:6mm }
+      .timeline:before{ left:0; background:linear-gradient(180deg, rgba(110,231,255,.35), transparent) }
+      .item{ opacity:1; transform:none; background:transparent; border:0; margin:2mm 0; padding:0 0 0 4mm }
+      .item:before{ left:-6px; top:6px; box-shadow:0 0 0 3px rgba(110,231,255,.18) }
+
+      .gridcards{ gap:4mm }
+      .gridcards>.card{ grid-column:span 6 }
+      .card{ margin-bottom:3mm; padding:3mm }
+      .kbadges .b{ background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.18) }
+      .pill{ background:rgba(59,130,246,.15); border-color:rgba(110,231,255,.25) }
+
+      /* Hide on-paper CTAs */
+      .cta,.ghost,.btn{ display:none !important }
+
+      .footer{ margin-top:2mm; color:var(--muted) }
+
+      a{ text-decoration:none; color:var(--ink) }
+
+      /* Keep to one page (best effort) & avoid ugly breaks */
+      .tag,.b,.pill{ font-size:9pt }
+      p,.tagline{ font-size:10.5pt }
+      .card h3{ font-size:10.5pt }
+      header, .section, .timeline, .gridcards, .card, .item{ break-inside:avoid }
+    }
+
+    /* Stop avatar animation briefly while printing */
+    body.pdf .avatar img{ animation:none }
   </style>
 </head>
 <body>
@@ -101,7 +207,7 @@
             <div><a class="chip" href="https://www.linkedin.com/in/sreejith-suresh-32b85738" target="_blank">🔗 LinkedIn</a></div>
           </div>
           <div class="cta">
-            <button class="btn" onclick="window.print()">🖨️ Save as PDF</button>
+            <button class="btn" onclick="savePdf()">🖨️ Save as PDF</button>
             <a class="btn ghost" href="#projects">⭐ Featured Projects</a>
             <a class="btn ghost" href="#skills">🧩 Tech Stack</a>
           </div>
@@ -177,6 +283,12 @@
     },{threshold:.2});
     document.querySelectorAll('.item').forEach(n=>obs.observe(n));
     document.getElementById('yr').textContent=new Date().getFullYear();
+
+    // PDF helper: apply print tweaks then trigger print
+    function savePdf(){
+      document.body.classList.add('pdf');
+      setTimeout(()=>{ window.print(); setTimeout(()=>document.body.classList.remove('pdf'), 300); }, 50);
+    }
   </script>
 </body>
 </html>
