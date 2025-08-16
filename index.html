@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sreejith Suresh — Senior Android Engineer / Tech Lead</title>
+  <meta name="description" content="Single-page animated, responsive resume for Sreejith Suresh" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0e1420; --ink:#e6f0ff; --muted:#aac2ff;
+      --brand1:#3b82f6; --brand2:#6ee7ff;
+      --glass:rgba(255,255,255,.06); --ring:rgba(110,231,255,.45);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:radial-gradient(1200px 800px at 80% -10%, #173356, transparent 60%), linear-gradient(180deg,#0b1220 0%, #0b1220 40%, #0e1420 100%);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;}
+    a{color:var(--brand2);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1080px;margin:auto;padding:24px}
+
+    /* HEADER */
+    header{position:relative;border-radius:24px;overflow:hidden;margin:8px 0 20px;
+      background:linear-gradient(135deg, rgba(59,130,246,.25), rgba(110,231,255,.12));
+      box-shadow: 0 10px 40px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.05);
+      isolation:isolate;}
+    .hgrid{display:grid;gap:24px;padding:28px;
+      grid-template-columns:1.2fr .8fr;
+      grid-template-areas:"id avatar";align-items:center;}
+    .id{grid-area:id}
+    .id h1{font-size:clamp(28px, 3.5vw, 48px); margin-bottom:8px; line-height:1.05}
+    .tagline{color:var(--muted);margin-bottom:10px}
+    .id .tag{display:inline-block;padding:6px 10px;border-radius:999px;
+      background:linear-gradient(120deg,rgba(59,130,246,.25),rgba(110,231,255,.2));
+      border:1px solid rgba(255,255,255,.12);margin:6px 6px 0 0;font-weight:600;color:#dff6ff}
+    .divider{height:1px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);margin:18px 0}
+    .meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-size:14px;color:var(--muted)}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:var(--glass)}
+
+    /* AVATAR with glow */
+    .avatar{grid-area:avatar;display:flex;justify-content:center}
+    .avatar img{
+      width:240px;height:240px;object-fit:cover;border-radius:50%;
+      border:3px solid var(--brand1);box-shadow:0 0 20px var(--ring);
+      animation:glow 4s ease-in-out infinite alternate;
+    }
+    @keyframes glow{from{box-shadow:0 0 10px var(--brand1);}to{box-shadow:0 0 25px var(--brand2);}}
+
+    /* SECTIONS */
+    .section{margin:28px 0;padding:22px;border-radius:20px;
+      background-color:rgba(2,6,23,.35);border:1px solid rgba(255,255,255,.06);
+      box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .section h2{margin:0 0 12px;font-size:clamp(18px,2.2vw,26px)}
+
+    .timeline{position:relative;padding-left:24px}
+    .timeline:before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg, var(--ring), transparent)}
+    .item{position:relative;padding:12px 12px 12px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);margin:10px 0;opacity:0;transform:translateY(10px);transition:.6s cubic-bezier(.2,.8,.2,1)}
+    .item.reveal{opacity:1;transform:none}
+    .item:before{content:"";position:absolute;left:-11px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--brand2);box-shadow:0 0 0 4px rgba(110,231,255,.18)}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px;margin-bottom:14px}
+    .card h3{margin:0 0 8px;font-size:18px}
+    .kbadges{display:flex;flex-wrap:wrap;gap:8px}
+    .kbadges .b{font-size:12px;border:1px dashed rgba(255,255,255,.18);padding:6px 8px;border-radius:10px;background:rgba(255,255,255,.04)}
+    .pill{display:inline-block;margin:6px 6px 0 0;padding:6px 10px;border-radius:999px;background:rgba(59,130,246,.15);border:1px solid rgba(110,231,255,.2);font-size:12px}
+    .gridcards{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .gridcards>.card{grid-column:span 6}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg, rgba(59,130,246,.28), rgba(110,231,255,.12));font-weight:600}
+    .btn:active{transform:translateY(1px)}
+    .ghost{background:rgba(255,255,255,.04)}
+    .footer{opacity:.75;font-size:12px;text-align:center;margin:18px 0}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hgrid{grid-template-columns:1fr;grid-template-areas:"avatar" "id";text-align:center}
+      .avatar img{width:140px;height:140px}
+      .meta{grid-template-columns:1fr;justify-items:center}
+      .cta{justify-content:center}
+      .gridcards>.card{grid-column:span 12}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- HERO -->
+    <header>
+      <div class="hgrid">
+        <div class="avatar"><img src="./profile.png" alt="Sreejith Suresh"></div>
+        <div class="id">
+          <h1>Sreejith Suresh</h1>
+          <div class="tagline">Tech Lead / EM – Android • Architecture • People Management • Product Thinking</div>
+          <div>
+            <span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span><span class="tag">KMM</span>
+            <span class="tag">MVVM / MVI</span><span class="tag">Clean Architecture</span><span class="tag">Coroutines</span>
+          </div>
+          <div class="divider"></div>
+          <div class="meta">
+            <div><span class="chip">📍 Dubai</span></div>
+            <div><a class="chip" href="tel:+971558280133">📞 +971 55 828 0133</a></div>
+            <div><a class="chip" href="mailto:sreejithmailz@gmail.com">✉️ sreejithmailz@gmail.com</a></div>
+            <div><a class="chip" href="https://www.linkedin.com/in/sreejith-suresh-32b85738" target="_blank">🔗 LinkedIn</a></div>
+          </div>
+          <div class="cta">
+            <button class="btn" onclick="window.print()">🖨️ Save as PDF</button>
+            <a class="btn ghost" href="#projects">⭐ Featured Projects</a>
+            <a class="btn ghost" href="#skills">🧩 Tech Stack</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- SUMMARY -->
+    <section class="section"><h2>Profile</h2>
+      <p>10+ years building secure, high-performance mobile apps across Banking & Fintech. Hands-on with Android (Kotlin, Jetpack Compose) and Kotlin Multiplatform. Strong in modularization, performance tuning, and leading cross-functional teams. Passionate about elegant UX, robust architecture, and developer experience.</p>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section" id="experience"><h2>Experience</h2>
+      <div class="timeline">
+        <div class="item"><strong>Senior Tech Lead</strong> — Synechron Technologies L.L.C, Dubai</div>
+        <div class="item"><strong>Senior Mobile Solutions Engineer L2</strong> — Publicis Sapient, Bangalore</div>
+        <div class="item"><strong>Tech Specialist</strong> — Cognizant Technology Solutions, Bangalore</div>
+        <div class="item"><strong>Senior Software Engineer</strong> — Micro Objects Pvt Ltd, Cochin</div>
+        <div class="item"><strong>Programmer</strong> — Reubro International</div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills"><h2>Skills & Tech Stack</h2>
+      <div class="card"><h3>Core</h3>
+        <div class="kbadges">
+          <span class="b">Kotlin</span><span class="b">Jetpack Compose</span><span class="b">KMM</span>
+          <span class="b">MVVM / MVI</span><span class="b">Clean Architecture</span>
+          <span class="b">Coroutines</span><span class="b">Hilt</span><span class="b">Room</span><span class="b">Retrofit</span>
+        </div>
+      </div>
+      <div class="card"><h3>Also Worked With</h3>
+        <div class="kbadges">
+          <span class="b">Crashlytics</span><span class="b">Dagger 2</span><span class="b">RxJava</span><span class="b">OkHttp</span>
+          <span class="b">Unit Testing</span><span class="b">Scrum/Agile</span><span class="b">CI/CD</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects"><h2>Selected Projects</h2>
+      <div class="gridcards">
+        <div class="card"><h3>Banking App — Emirates NBD</h3><p class="tagline">Team Lead • Kotlin • Clean Architecture • Coroutines</p></div>
+        <div class="card"><h3>Lloyds Banking App</h3><p class="tagline">Kotlin • MVVM • Modularization</p></div>
+        <div class="card"><h3>SIAM Flutter App</h3><p class="tagline">Flutter • BLoC • Wearables</p></div>
+        <div class="card"><h3>US Bank Consumer App</h3><p class="tagline">Kotlin • MVVM • Retrofit</p></div>
+        <div class="card"><h3>CVS Pharmacy App (USA)</h3><p class="tagline">RecyclerViews • CoordinatorLayout • ConstraintLayout</p></div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="section"><h2>Education</h2>
+      <div class="card"><strong>B.Tech in Computer Science</strong> — MCET</div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact"><h2>Let’s Connect</h2>
+      <p>Interested in Android leadership, architecture reviews, or building clean, scalable mobile apps.</p>
+      <div class="cta">
+        <a class="btn" href="mailto:sreejithmailz@gmail.com">✉️ Email Me</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/sreejith-suresh-32b85738" target="_blank">🔗 LinkedIn</a>
+      </div>
+    </section>
+
+    <div class="footer">© <span id="yr"></span> Sreejith Suresh • Metallic-blue theme</div>
+  </div>
+
+  <script>
+    // reveal timeline items
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('reveal');obs.unobserve(e.target);}})
+    },{threshold:.2});
+    document.querySelectorAll('.item').forEach(n=>obs.observe(n));
+    document.getElementById('yr').textContent=new Date().getFullYear();
+  </script>
+</body>
+</html>
