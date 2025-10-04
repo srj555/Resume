@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="ocean">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sreejith Suresh — Senior Android Engineer / Tech Lead</title>
+  <meta name="description" content="Humanized, animated, responsive, multi-theme resume for Sreejith Suresh with MI-style micro-animations and PDF export." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* =========================
+       THEME TOKENS (Ocean default)
+       ========================= */
+    :root{
+      --wrap:1080px;
+      --bg:#000; --ink:#fff; --muted:#d0d0d0;
+      --brand1:#fff; --brand2:#bfbfbf;
+      --glass:rgba(255,255,255,.08); --ring:rgba(255,255,255,.35);
+      --g-radial:#000; --g-top:#000; --g-bottom:#000;
+      --header-a: rgba(255,255,255,.10); --header-b: rgba(255,255,255,.06);
+      --card-bd: rgba(255,255,255,.12);
+      --tag-bd: rgba(255,255,255,.18);
+      --radius:20px;
+    }
+    html[data-theme="ocean"]{
+      --bg:#0e1420; --ink:#e6f0ff; --muted:#aac2ff;
+      --brand1:#3b82f6; --brand2:#6ee7ff;
+      --glass:rgba(255,255,255,.06); --ring:rgba(110,231,255,.45);
+      --g-radial:#173356; --g-top:#0b1220; --g-bottom:#0e1420;
+      --header-a: rgba(59,130,246,.25); --header-b: rgba(110,231,255,.12);
+      --card-bd: rgba(255,255,255,.07);
+      --tag-bd: rgba(255,255,255,.18);
+    }
+    html[data-theme="mustard"]{
+      --bg:#12100a; --ink:#fffaf0; --muted:#f5e6b5;
+      --brand1:#f59e0b; --brand2:#facc15;
+      --glass:rgba(250,204,21,.12); --ring:rgba(250,204,21,.45);
+      --g-radial:#3b2f05; --g-top:#1c1706; --g-bottom:#12100a;
+      --header-a: rgba(245,158,11,.30); --header-b: rgba(250,204,21,.22);
+      --card-bd: rgba(250, 204, 21, .35);
+      --tag-bd: rgba(250,204,21,.45);
+    }
+    html[data-theme="noir"]{
+      --bg:#000; --ink:#fff; --muted:#d0d0d0;
+      --brand1:#fff; --brand2:#bfbfbf;
+      --glass:rgba(255,255,255,.08); --ring:rgba(255,255,255,.35);
+      --g-radial:#000; --g-top:#000; --g-bottom:#000;
+      --header-a: rgba(255,255,255,.10); --header-b: rgba(255,255,255,.06);
+      --card-bd: rgba(255,255,255,.12);
+      --tag-bd: rgba(255,255,255,.25);
+    }
+    html[data-theme="paper"]{
+      --bg:#ffffff; --ink:#0b0b0b; --muted:#343434;
+      --brand1:#0b0b0b; --brand2:#5a5a5a;
+      --glass:#f3f3f3; --ring:#9a9a9a;
+      --g-radial:#ffffff; --g-top:#ffffff; --g-bottom:#ffffff;
+      --header-a:#f2f2f2; --header-b:#eaeaea;
+      --card-bd:#dcdcdc; --tag-bd:#cfcfcf;
+    }
+    html[data-theme="cyber"]{
+      --bg:#06141a; --ink:#eaffff; --muted:#b8f7ff;
+      --brand1:#22d3ee; --brand2:#67e8f9;
+      --glass:rgba(34,211,238,.15); --ring:rgba(103,232,249,.45);
+      --g-radial:#0a2a33; --g-top:#071c22; --g-bottom:#06141a;
+      --header-a: rgba(34,211,238,.28); --header-b: rgba(103,232,249,.18);
+      --card-bd: rgba(34, 211, 238, .22); --tag-bd: rgba(103,232,249,.35);
+    }
+
+    /* ===== Base ===== */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      background:
+        radial-gradient(1200px 800px at 80% -10%, var(--g-radial), transparent 60%),
+        linear-gradient(180deg,var(--g-top) 0%, var(--g-top) 40%, var(--g-bottom) 100%);
+      color:var(--ink);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+      transition: background 300ms ease, color 200ms ease;
+      overflow-x:hidden;
+    }
+    a{color:var(--brand2);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--wrap);margin:auto;padding:24px}
+
+    /* ===== Header / Hero ===== */
+    header{
+      position:relative;border-radius:24px;overflow:hidden;margin:8px 0 20px;
+      background:linear-gradient(135deg, var(--header-a), var(--header-b));
+      box-shadow: 0 10px 40px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.05);
+      isolation:isolate;
+    }
+    .hgrid{
+      display:grid;gap:24px;padding:28px;
+      grid-template-columns:1.2fr .8fr;grid-template-areas:"id avatar";align-items:center;
+    }
+    .id{grid-area:id; position:relative;}
+    .id h1{font-size:clamp(28px, 3.5vw, 48px); margin-bottom:8px; line-height:1.05}
+    .tagline{color:var(--muted);margin-bottom:10px}
+    .tags{display:flex;flex-wrap:wrap; gap:8px}
+    .id .tag{
+      display:inline-block;padding:6px 10px;border-radius:999px;
+      background:linear-gradient(120deg,var(--header-a),var(--header-b));
+      border:1px solid var(--tag-bd);font-weight:600;color:var(--ink)
+    }
+    .divider{height:1px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);margin:16px 0}
+    .meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-size:14px;color:var(--muted)}
+    .chip{
+      display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--card-bd);
+      border-radius:999px;background:var(--glass);color:var(--ink) !important; /* ensure white text on chips */
+    }
+    .chip.btnlike{cursor:pointer; user-select:none; color:var(--ink) !important;}
+    .meta a.chip{color:var(--ink) !important;} /* ensure white even if it's a link */
+
+    .avatar{grid-area:avatar;display:flex;justify-content:center;position:relative}
+    .avatar img{
+      width:240px;height:240px;object-fit:cover;border-radius:50%;
+      border:3px solid var(--brand1);box-shadow:0 0 20px var(--ring);
+      animation:glow 4s ease-in-out infinite alternate;background:#0f233d;
+    }
+
+    /* Mission-Impossible style scanner */
+    header::after{
+      content:""; position:absolute; inset:-30% -40% auto auto;
+      width:140%; height:140%;
+      background:linear-gradient(115deg, transparent 40%, rgba(255,255,255,.12) 50%, transparent 60%);
+      transform:translateX(-120%) rotate(5deg);
+      pointer-events:none; mix-blend-mode:soft-light;
+      animation: sweep 6s ease-in-out infinite;
+    }
+    @keyframes sweep{0%{transform:translateX(-120%) rotate(5deg)}8%{transform:translateX(10%) rotate(5deg)}100%{transform:translateX(10%) rotate(5deg)}}
+    @keyframes glow{from{box-shadow:0 0 12px var(--brand1), 0 0 0 0 rgba(255,255,255,0)} to{box-shadow:0 0 24px var(--brand2), 0 0 0 6px rgba(255,255,255,.04)}}
+
+    /* ===== Sections ===== */
+    .section{
+      margin:26px 0;padding:22px;border-radius:var(--radius);
+      background-color:rgba(2,6,23,.35);border:1px solid var(--card-bd);
+      box-shadow:0 10px 30px rgba(0,0,0,.25); position:relative;
+    }
+    .section h2{margin:0 0 10px;font-size:clamp(18px,2.2vw,26px)}
+    .hint{color:var(--muted); font-size:13px; margin:0 0 10px}
+    .revealable{opacity:0; transform:translateY(12px) scale(.995)}
+    .reveal{opacity:1; transform:none; transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1)}
+
+    /* Timeline + details */
+    .timeline{position:relative;padding-left:24px}
+    .timeline:before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg, var(--ring), transparent)}
+    .item{position:relative;padding:12px 12px 12px 18px;border-radius:12px;border:1px solid var(--card-bd);background:rgba(255,255,255,.03);margin:10px 0}
+    .item:before{content:"";position:absolute;left:-11px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--brand2);box-shadow:0 0 0 4px rgba(110,231,255,.18)}
+    .pill{display:inline-block;margin-left:8px;padding:4px 8px;border-radius:999px;background:rgba(59,130,246,.15);border:1px solid var(--tag-bd);font-size:12px}
+
+    details{margin-top:8px}
+    details summary{
+      list-style:none; cursor:pointer; user-select:none;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:10px; border:1px dashed var(--card-bd);
+      background:rgba(255,255,255,.03); font-weight:600; color:var(--ink);
+    }
+    details summary::-webkit-details-marker{display:none}
+    details[open] summary{background:rgba(255,255,255,.06)}
+    .dwrap{padding:10px 2px 4px 2px; color:var(--ink); opacity:.95}
+
+    /* Cards / badges */
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));border:1px solid var(--card-bd);border-radius:16px;padding:14px;margin-bottom:14px;break-inside:avoid}
+    .card h3{margin:0 0 8px;font-size:18px}
+    .kbadges{display:flex;flex-wrap:wrap;gap:8px}
+    .kbadges .b{font-size:12px;border:1px dashed var(--card-bd);padding:6px 8px;border-radius:10px;background:rgba(255,255,255,.04);animation:pulse 4.5s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+    .gridcards{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .gridcards>.card{grid-column:span 6}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--card-bd);background:linear-gradient(180deg, var(--header-a), var(--header-b));font-weight:600}
+    .btn:active{transform:translateY(1px)}
+    .ghost{background:rgba(255,255,255,.04)}
+    .footer{opacity:.75;font-size:12px;text-align:center;margin:18px 0}
+
+    /* ===== Floating side nav (replaces top quick nav) ===== */
+    .side-rail{
+      position:fixed; right:18px; bottom:86px; z-index:60;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .rail-btn{
+      display:flex; align-items:center; justify-content:center;
+      width:42px; height:42px; border-radius:12px; border:1px solid var(--card-bd);
+      background:linear-gradient(180deg, var(--header-a), var(--header-b)); color:var(--ink);
+      text-decoration:none; font-size:18px; box-shadow:0 6px 18px rgba(0,0,0,.3);
+    }
+    .rail-btn span{position:absolute; right:52px; white-space:nowrap; pointer-events:none;
+      opacity:0; transform:translateX(6px); transition:all .2s ease; font-size:12px;
+      background:rgba(0,0,0,.25); border:1px solid var(--card-bd); padding:6px 8px; border-radius:8px;}
+    .rail-btn:hover span{opacity:1; transform:none}
+
+    /* Theme switcher FAB */
+    .theme-toggle{
+      position:fixed; right:18px; bottom:18px; z-index:70;
+      display:flex; gap:10px; align-items:center;
+    }
+    .theme-btn{
+      border:1px solid var(--card-bd);
+      background:linear-gradient(180deg, var(--header-a), var(--header-b));
+      color:var(--ink); padding:10px 12px; border-radius:12px; font-weight:700; cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,0,0,.25); position:relative;
+    }
+    .theme-tray{
+      display:none; gap:8px; padding:8px; border-radius:12px; backdrop-filter:blur(8px);
+      border:1px solid var(--card-bd); background:rgba(0,0,0,.25);
+    }
+    .theme-toggle.open .theme-tray{ display:flex; }
+    .swatch{
+      width:28px; height:28px; border-radius:8px; cursor:pointer; border:2px solid rgba(255,255,255,.35);
+      box-shadow:0 4px 14px rgba(0,0,0,.25);
+    }
+    .swatch[data-theme="ocean"]{background:linear-gradient(45deg,#3b82f6,#6ee7ff)}
+    .swatch[data-theme="mustard"]{background:linear-gradient(45deg,#f59e0b,#facc15)}
+    .swatch[data-theme="noir"]{background:linear-gradient(45deg,#000,#2b2b2b)}
+    .swatch[data-theme="paper"]{background:linear-gradient(45deg,#fff,#e5e5e5);border-color:#999}
+    .swatch[data-theme="cyber"]{background:linear-gradient(45deg,#22d3ee,#67e8f9)}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hgrid{grid-template-columns:1fr;grid-template-areas:"avatar" "id";text-align:center}
+      .avatar img{width:140px;height:140px}
+      .meta{grid-template-columns:1fr;justify-items:center}
+      .cta{justify-content:center}
+      .gridcards>.card{grid-column:span 12}
+      .rail-btn span{display:none}
+      .side-rail{right:12px}
+      .theme-toggle{right:12px}
+    }
+
+    /* ===== PRINT / PDF ===== */
+    @page{ size:A4; margin:0; }
+    @media print{
+      html, body{
+        background:var(--bg) !important;
+        -webkit-print-color-adjust:exact; print-color-adjust:exact;
+        color:var(--ink) !important;
+      }
+      body::before{
+        content:""; position:fixed; inset:0; z-index:-1;
+        background:
+          radial-gradient(1200px 800px at 80% -10%, var(--g-radial), transparent 60%),
+          linear-gradient(180deg,var(--g-top) 0%, var(--g-top) 40%, var(--g-bottom) 100%);
+      }
+      .wrap{max-width:none; width:210mm; margin:0; padding:12mm 12mm 10mm; line-height:1.24;}
+      header{border-radius:0; box-shadow:none; border:0; margin:-12mm -12mm 6mm; padding:14mm 12mm 10mm; background:linear-gradient(135deg, var(--header-a), var(--header-b));}
+      .hgrid{padding:0; gap:6mm; grid-template-columns:1fr; grid-template-areas:"avatar" "id"; justify-items:center; text-align:center;}
+      .id{ max-width:160mm; }
+      .id h1{ font-size:22pt }
+      .tagline{ color:var(--muted) }
+      .tags{justify-content:center}
+      .id .tag{ padding:4px 8px; margin:3px 4px; display:inline-block; border-color:var(--tag-bd) }
+      .meta{ display:flex; flex-wrap:wrap; gap:4mm; justify-content:center; font-size:10pt; color:var(--muted) }
+      .divider{ margin:4mm 0; background:rgba(255,255,255,.18) }
+      .avatar img{ width:46mm; height:46mm; border-radius:50%; border:2px solid var(--brand2); box-shadow:0 0 10px rgba(110,231,255,.35); animation:none; }
+
+      .section{ background:rgba(255,255,255,.04); border:1px solid var(--card-bd); box-shadow:none; margin:4mm 0; padding:4mm; border-radius:8px; break-inside:avoid; }
+      .section h2{ font-size:12pt; margin-bottom:3mm }
+      .timeline{ padding-left:6mm }
+      .timeline:before{ left:0; background:linear-gradient(180deg, var(--ring), transparent) }
+      .item{ opacity:1; transform:none; background:transparent; border:0; margin:2mm 0; padding:0 0 0 4mm }
+      .item:before{ left:-6px; top:6px; box-shadow:0 0 0 3px rgba(110,231,255,.18) }
+      .gridcards{ gap:4mm }
+      .gridcards>.card{ grid-column:span 6 }
+      .card{ margin-bottom:3mm; padding:3mm }
+      .kbadges .b{ background:rgba(255,255,255,.05); border-color:var(--card-bd) }
+      .pill{ background:rgba(59,130,246,.15); border-color:var(--tag-bd) }
+      .cta,.ghost,.btn,.theme-toggle,.side-rail{ display:none !important }
+      details{page-break-inside:avoid}
+      a{ text-decoration:none; color:var(--ink) }
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important; transition:none!important}
+      header::after{display:none!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- HERO -->
+    <header class="revealable" id="top">
+      <div class="hgrid">
+        <div class="avatar">
+          <img src="./profile.png" alt="Sreejith Suresh" onerror="this.onerror=null;this.src='20200914_151748.jpeg'">
+        </div>
+        <div class="id">
+          <h1>Sreejith Suresh</h1>
+          <div class="tagline">Senior Android Engineer • Tech Lead • People-first Manager</div>
+          <div class="tags">
+            <span class="tag">Android (Kotlin, Compose)</span>
+            <span class="tag">KMM</span>
+            <span class="tag">Clean Architecture</span>
+            <span class="tag">MVVM / MVI</span>
+            <span class="tag">Coroutines</span>
+          </div>
+          <div class="divider"></div>
+          <div class="meta">
+            <div><span class="chip">📍 Dubai, UAE</span></div>
+            <div><button class="chip btnlike" data-copy="+971558280133" title="Copy number">📞 +971 55 828 0133</button></div>
+            <div><button class="chip btnlike" data-copy="sreejithmailz@gmail.com" title="Copy email">✉️ sreejithmailz@gmail.com</button></div>
+            <div><a class="chip" href="https://www.linkedin.com/in/sreejith-suresh-32b85738" target="_blank" rel="noreferrer">🔗 LinkedIn</a></div>
+          </div>
+          <div class="cta">
+            <button class="btn" onclick="savePdf()">🖨️ Save as PDF</button>
+            <a class="btn ghost" href="#experience">🧭 Experience</a>
+            <a class="btn ghost" href="#skills">🧩 Tech Stack</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section class="section revealable" id="about">
+      <h2>About Me</h2>
+      <p class="hint">Lead/EM who codes daily. I blend clean architecture with delightful UX and keep teams unblocked.</p>
+      <p>
+        I’m a hands-on <strong>Senior Tech Lead / Android EM</strong> who loves building reliable, elegant apps that scale.
+        Over 12+ years, I’ve led squads, mentored engineers, and shipped secure, high-performance products for banking and fintech.
+        My happy place is where <em>clear architecture</em> meets <em>great user experience</em>—and a team that enjoys the journey.
+      </p>
+      <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 8px">Strengths in a nutshell</h3>
+        <ul style="margin-left:18px; line-height:1.7">
+          <li><strong>Leadership:</strong> calm under pressure, unblocker, strong communicator; I set direction and protect focus.</li>
+          <li><strong>Android Expert:</strong> Kotlin, Jetpack Compose, KMM, performance tuning, modularization, offline-first.</li>
+          <li><strong>Builder’s mindset:</strong> pragmatic, testable solutions; I optimize for maintainability and delivery speed.</li>
+          <li><strong>People-first:</strong> 1:1s, coaching, code reviews that teach, roadmaps everyone understands.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section revealable" id="experience">
+      <h2>Experience</h2>
+      <p class="hint">Skim the highlights—expand for specifics.</p>
+      <div class="timeline">
+        <div class="item revealable">
+          <strong>Senior Tech Lead</strong> — Synechron Technologies L.L.C, Dubai
+          <span class="pill">Sep 2023 – Current</span>
+          <p style="margin-top:6px;opacity:.9">
+            Led Android for banking initiatives: guided architecture (Compose + Clean), instituted PR quality gates,
+            and mentored a cross-functional squad to deliver faster with fewer regressions.
+          </p>
+          <details>
+            <summary>Impact highlights</summary>
+            <div class="dwrap">
+              <ul style="margin-left:18px; line-height:1.7">
+                <li>Reduced crash rate via proactive ANR & crash triage.</li>
+                <li>Introduced modularization strategy for faster builds and clearer ownership.</li>
+                <li>Set up “definition of done” + PR templates; fewer back-and-forths, faster merges.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div class="item revealable">
+          <strong>Senior Mobile Solutions Engineer L2</strong> — Publicis Sapient, Bangalore
+          <span class="pill">Mar 2021 – Sep 2023</span>
+          <p style="margin-top:6px;opacity:.9">
+            Drove modern Android practices (Compose, KMM pilots) on large-scale programs; collaborated with PM/Design
+            to simplify flows and lift engagement.
+          </p>
+          <details>
+            <summary>Impact highlights</summary>
+            <div class="dwrap">
+              <ul style="margin-left:18px; line-height:1.7">
+                <li>Shipped Compose feature set with accessibility pass and measurable perf wins.</li>
+                <li>Drafted KMM PoC for shared domain logic; unblocked iOS parity discussions.</li>
+                <li>Mentored 4 engineers; instituted weekly architecture clinics.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div class="item revealable">
+          <strong>Tech Specialist</strong> — Cognizant Technology Solutions, Bangalore
+          <span class="pill">Nov 2015 – Mar 2021</span>
+          <p style="margin-top:6px;opacity:.9">
+            Owned enterprise app delivery: stabilized releases, modularized legacy code, and set up CI to shorten cycle time.
+          </p>
+          <details>
+            <summary>Impact highlights</summary>
+            <div class="dwrap">
+              <ul style="margin-left:18px; line-height:1.7">
+                <li>Cut release rollbacks by introducing staged rollout & smoke automation.</li>
+                <li>Refactored networking to Retrofit/OkHttp with robust error handling.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div class="item revealable">
+          <strong>Sr. Software Engineer</strong> — Micro Objects Pvt Ltd, Cochin
+          <span class="pill">May 2014 – Nov 2015</span>
+          <p style="margin-top:6px;opacity:.9">
+            Built performant Android features with smooth UI, accessibility, and resilient networking.
+          </p>
+        </div>
+
+        <div class="item revealable">
+          <strong>Programmer</strong> — Reubro International
+          <span class="pill">Jun 2012 – May 2014</span>
+          <p style="margin-top:6px;opacity:.9">
+            Laid the Android foundations—shipped client projects and learned to balance quality with deadlines.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section revealable" id="skills">
+      <h2>Skills & Tech Stack</h2>
+      <p class="hint">A snapshot; happy to share code samples or architectures on request.</p>
+      <div class="card revealable"><h3>Core</h3>
+        <div class="kbadges">
+          <span class="b">Kotlin</span><span class="b">Jetpack Compose</span><span class="b">KMM</span>
+          <span class="b">MVVM</span><span class="b">MVI</span><span class="b">Clean Architecture</span>
+          <span class="b">Coroutines/Flow</span><span class="b">Hilt/DI</span><span class="b">Room</span>
+          <span class="b">Retrofit</span><span class="b">OkHttp</span><span class="b">Crashlytics</span>
+          <span class="b">Testing (Unit/UI)</span><span class="b">CI/CD</span><span class="b">Agile</span>
+        </div>
+      </div>
+      <div class="card revealable"><h3>Leadership</h3>
+        <div class="kbadges">
+          <span class="b">Team Leadership</span><span class="b">Mentoring & 1:1s</span><span class="b">Architecture Reviews</span>
+          <span class="b">Roadmapping</span><span class="b">Stakeholder Comms</span><span class="b">Hiring</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section revealable" id="projects">
+      <h2>Selected Projects</h2>
+      <p class="hint">Representative work (details on request).</p>
+      <div class="gridcards">
+        <div class="card revealable">
+          <h3>Banking App — Emirates NBD</h3>
+          <p class="tagline">Tech Lead • Compose • Clean Architecture • Perf tuning</p>
+        </div>
+        <div class="card revealable">
+          <h3>Lloyds Banking App</h3>
+          <p class="tagline">Kotlin • MVVM • Modularization • CI hygiene</p>
+        </div>
+        <div class="card revealable">
+          <h3>US Bank Consumer App</h3>
+          <p class="tagline">Kotlin • Legacy module refactor • Stabilized release</p>
+        </div>
+        <div class="card revealable">
+          <h3>SIAM Wearables Companion</h3>
+          <p class="tagline">Flutter • BLoC • Device sync • Accessibility pass</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section revealable" id="contact">
+      <h2>Let’s Connect</h2>
+      <p>Open to Android leadership roles (Lead/EM), architecture reviews, and building clean, scalable mobile apps.</p>
+      <div class="cta">
+        <a class="btn" href="tel:+971558280133">📞 +971 55 828 0133</a>
+        <a class="btn" href="mailto:sreejithmailz@gmail.com">✉️ Email Me</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/sreejith-suresh-32b85738" target="_blank" rel="noreferrer">🔗 LinkedIn</a>
+        <a class="btn" href="#top" title="Back to top">⬆️ Top</a>
+      </div>
+    </section>
+
+    <div class="footer">© <span id="yr"></span> Sreejith Suresh • Themed resume</div>
+  </div>
+
+  <!-- FLOATING SIDE NAV -->
+  <nav class="side-rail" aria-label="Section shortcuts">
+    <a class="rail-btn" href="#about" title="About"><span>About</span>🧑‍💻</a>
+    <a class="rail-btn" href="#experience" title="Experience"><span>Experience</span>🧭</a>
+    <a class="rail-btn" href="#skills" title="Skills"><span>Skills</span>🧩</a>
+    <a class="rail-btn" href="#projects" title="Projects"><span>Projects</span>⭐</a>
+    <a class="rail-btn" href="#contact" title="Contact"><span>Contact</span>✉️</a>
+  </nav>
+
+  <!-- THEME SWITCHER -->
+  <div class="theme-toggle" id="themeToggle" aria-live="polite">
+    <button class="theme-btn" id="themeBtn" aria-expanded="false" aria-controls="themeTray">🎨 Theme</button>
+    <div class="theme-tray" id="themeTray" role="menu" aria-label="Theme picker">
+      <div class="swatch" data-theme="ocean"   title="Ocean (Metallic Blue)" role="menuitem"></div>
+      <div class="swatch" data-theme="mustard" title="Mustard" role="menuitem"></div>
+      <div class="swatch" data-theme="noir"    title="Noir (Black)" role="menuitem"></div>
+      <div class="swatch" data-theme="paper"   title="Paper (White)" role="menuitem"></div>
+      <div class="swatch" data-theme="cyber"   title="Cyber (Neon Cyan)" role="menuitem"></div>
+    </div>
+  </div>
+
+  <script>
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('reveal');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:.18});
+    document.querySelectorAll('.revealable, .item').forEach(el=>io.observe(el));
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // PDF helper
+    function savePdf(){
+      document.body.classList.add('pdf');
+      setTimeout(()=>{ window.print(); setTimeout(()=>document.body.classList.remove('pdf'), 250); }, 40);
+    }
+    if (window.matchMedia) {
+      const mq = window.matchMedia('print');
+      if (mq && mq.addEventListener) {
+        mq.addEventListener('change', m => { if(!m.matches) document.body.classList.remove('pdf'); });
+      }
+    }
+
+    // Theme persistence + tray
+    const htmlEl = document.documentElement;
+    const KEY = 'sreejith_theme';
+    const saved = localStorage.getItem(KEY);
+    if(saved){ htmlEl.setAttribute('data-theme', saved); }
+
+    const toggle = document.getElementById('themeToggle');
+    const btn = document.getElementById('themeBtn');
+    const tray = document.getElementById('themeTray');
+
+    btn.addEventListener('click', ()=>{
+      const open = toggle.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true':'false');
+    });
+
+    tray.querySelectorAll('.swatch').forEach(s=>{
+      s.addEventListener('click', ()=>{
+        const t = s.getAttribute('data-theme');
+        htmlEl.setAttribute('data-theme', t);
+        localStorage.setItem(KEY, t);
+        toggle.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      });
+    });
+
+    // Outside click / Esc close
+    document.addEventListener('click', (e)=>{
+      if(!toggle.contains(e.target)){
+        toggle.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      }
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){
+        toggle.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+      }
+    });
+
+    // Copy-to-clipboard on contact chips (with quick feedback)
+    function flash(el, text){
+      const orig = el.textContent;
+      el.textContent = text;
+      el.style.transition = 'opacity 180ms ease';
+      el.style.opacity = '0.85';
+      setTimeout(()=>{ el.textContent = orig; el.style.opacity='1'; }, 900);
+    }
+    document.querySelectorAll('.chip.btnlike').forEach(b=>{
+      b.addEventListener('click', async ()=>{
+        try{
+          await navigator.clipboard.writeText(b.dataset.copy);
+          flash(b, '✅ Copied');
+        }catch(e){
+          flash(b, '⚠️ Failed');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
