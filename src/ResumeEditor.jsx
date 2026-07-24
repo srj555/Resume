@@ -6,6 +6,7 @@ const themes = {
   android: { accent: "#b07152", accentLight: "#faf7f5", accentBg: "#fdf8f5", label: "Senior Android", subtitle: "Senior Android Engineer & Tech Lead" },
   techlead: { accent: "#2d6a4f", accentLight: "#f4f9f6", accentBg: "#f0fdf9", label: "Eng. Tech Lead", subtitle: "Engineering Tech Lead" },
   fintech: { accent: "#1a365d", accentLight: "#f0f5fa", accentBg: "#ebf4ff", label: "Fintech / Trading", subtitle: "Engineering Tech Lead" },
+  product: { accent: "#9b7a2e", accentLight: "#faf8f2", accentBg: "#fbf8ef", label: "Mobile Product", subtitle: "Mobile Product & Delivery Lead" },
 };
 
 const defaultData = {
@@ -107,6 +108,80 @@ const defaultData = {
   methodology: "Agile/Scrum, SAFe, Kanban, Sprint Planning, Jira, Confluence",
 };
 
+// Per-version content overrides, merged over defaultData. Versions without an
+// entry use defaultData as-is.
+const versionOverrides = {
+  product: {
+    profile: `Mobile product and delivery leader with 12+ years building customer-facing apps across banking, fintech, and healthcare. Owns the delivery lifecycle end to end -- discovery, prioritization, Agile release planning, launch, and KPI-driven optimization -- for apps serving 10M+ users with 99.5% crash-free rates and 4.5+ Play Store ratings. Deep native (Kotlin) and Flutter engineering background brings credibility with development teams; data-driven decisions, stakeholder management, and SAFe/Scrum delivery turn roadmaps into measurable business outcomes.`,
+    experience: [
+      {
+        role: "Senior Tech Lead",
+        date: "Sep 2023 - Present",
+        company: "Synechron Technologies, Dubai",
+        client: "Client: Emirates NBD",
+        bullets: [
+          "Drove the Emirates NBD app rebranding end to end -- owned priorities, dependencies, risks, and release planning across 20 engineers and UX/business stakeholders; delivered in 5 months with zero critical production issues. Received the GEM Award.",
+          "Partnered with UX, architecture, and business teams to modernize the customer experience on Jetpack Compose and multi-module Clean Architecture -- cut release cycles by 30% and build times by 40%.",
+          "Owned product quality KPIs -- 99.5% crash-free rate, <1.5s cold start, and Play Store rating health -- monitored through Firebase Performance, Crashlytics, and Datadog.",
+          "Balanced customer experience with banking-grade security and compliance: biometric auth, certificate pinning, and PCI DSS-aligned session management.",
+          "Championed AI-augmented delivery (Claude Code) for scaffolding, automated PR review, and test generation -- 50% faster review cycles, 80%+ coverage, faster time to market.",
+        ],
+        tags: ["Release Planning", "Agile/SAFe", "KPI Analytics", "Stakeholder Mgmt", "Kotlin/Compose", "Claude Code"],
+      },
+      {
+        role: "Senior Mobile Solutions Engineer (L2)",
+        date: "Mar 2021 - Sep 2023",
+        company: "Publicis Sapient, Bangalore",
+        client: "Clients: Lloyds Bank, SIAM Health",
+        bullets: [
+          "Delivered Open Banking (PSD2) payment initiation, biometric login, and real-time transaction journeys on the Lloyds Banking Group app for 18M+ UK customers, aligning priorities with UK-based product stakeholders.",
+          "Led the cross-platform SIAM Health Flutter app -- integrated Google Fit, Apple HealthKit, and real-time BLE wearable sync, shaping feature scope with client stakeholders.",
+          "Mentored 6 engineers; established delivery standards, code review practice, and WCAG 2.1 accessibility compliance.",
+          "Received Platinum Shield Award for US Bank feature delivery ahead of schedule (2021).",
+        ],
+        tags: ["Open Banking/PSD2", "Flutter", "Healthcare", "WCAG", "Client Stakeholders"],
+      },
+      {
+        role: "Tech Specialist / Team Lead",
+        date: "Nov 2015 - Mar 2021",
+        company: "Cognizant, Bangalore",
+        client: "Clients: US Bank, CVS Pharmacy",
+        bullets: [
+          "Built the US Bank Consumer App from scratch with a team of 8 -- scaled to millions of users across payments, transfers, and account management; sustained a 4.5+ Play Store rating.",
+          "Delivered pharmacy fulfillment and prescription refill journeys for CVS Pharmacy (#1 pharmacy app, 5M+ downloads).",
+          "Owned sprint planning, code reviews, release management, and production hotfix triage.",
+        ],
+        tags: ["Payments", "Consumer Apps", "Sprint Planning", "Release Mgmt"],
+      },
+      {
+        role: "Sr. Software Engineer / Programmer",
+        date: "Jun 2012 - Nov 2015",
+        company: "Micro Objects, Cochin & Reubro International",
+        client: "",
+        bullets: [
+          "Built Android apps with BLE/Bluetooth Classic, offline-first Room/SQLite sync, custom views, and Google Maps. Full lifecycle from concept to Play Store.",
+        ],
+        tags: [],
+      },
+    ],
+    skills: [
+      { label: "PRODUCT & DELIVERY", text: "Roadmap execution, Release Planning, Prioritization, Risk & Dependency Mgmt, Stakeholder Management" },
+      { label: "METHODOLOGY", text: "Agile/Scrum, SAFe, Kanban, Sprint Planning, Jira, Confluence" },
+      { label: "ANALYTICS & QUALITY", text: "Firebase Performance, Crashlytics, Datadog, Play Store metrics, crash-free & cold-start KPIs" },
+      { label: "MOBILE PLATFORMS", text: "Android (Kotlin, Jetpack Compose), Flutter, Bloc, KMP" },
+      { label: "DOMAIN & COMPLIANCE", text: "Open Banking/PSD2, PCI DSS, KYC/AML, GDPR, WCAG 2.1" },
+      { label: "AI-AUGMENTED DELIVERY", text: "Claude Code -- scaffolding, automated review, test & doc generation" },
+    ],
+    metrics: [
+      { num: "12+", label: "Years Mobile\nApps" },
+      { num: "4", label: "Banking Apps\nShipped" },
+      { num: "10M+", label: "End Users\nImpacted" },
+      { num: "99.5%", label: "Crash-Free\nRate" },
+      { num: "20", label: "Team Size\nLed" },
+    ],
+  },
+};
+
 function EditableText({ value, onChange, tag = "span", style = {}, className = "", multiline = false }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(value);
@@ -151,23 +226,35 @@ function EditableText({ value, onChange, tag = "span", style = {}, className = "
   );
 }
 
+const initialVersion = () => {
+  const v = new URLSearchParams(window.location.search).get("v");
+  return themes[v] ? v : "android";
+};
+
 export default function ResumeEditor() {
-  const [data, setData] = useState(defaultData);
-  const [version, setVersion] = useState("android");
+  const [dataByVersion, setDataByVersion] = useState(() => {
+    const all = {};
+    for (const k of Object.keys(themes)) {
+      all[k] = JSON.parse(JSON.stringify({ ...defaultData, ...(versionOverrides[k] || {}) }));
+    }
+    return all;
+  });
+  const [version, setVersion] = useState(initialVersion);
   const [photo, setPhoto] = useState(null);
   const theme = themes[version];
+  const data = dataByVersion[version];
   const resumeRef = useRef(null);
 
   const update = useCallback((path, value) => {
-    setData((prev) => {
+    setDataByVersion((prev) => {
       const next = JSON.parse(JSON.stringify(prev));
       const keys = path.split(".");
-      let obj = next;
+      let obj = next[version];
       for (let i = 0; i < keys.length - 1; i++) obj = obj[keys[i]];
       obj[keys[keys.length - 1]] = value;
       return next;
     });
-  }, []);
+  }, [version]);
 
   const handlePhoto = (e) => {
     const file = e.target.files[0];
