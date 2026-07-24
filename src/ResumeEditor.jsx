@@ -178,17 +178,18 @@ export default function ResumeEditor() {
     }
   };
 
-  const handlePrint = () => {
-    const content = resumeRef.current;
-    const win = window.open("", "_blank");
-    win.document.write(`<!DOCTYPE html><html><head><title>Resume</title><style>
+  const handlePrint = () => window.print();
+
+  const printCss = `
+    @media print {
       @page { size: A4; margin: 0; }
-      @media print { body { margin: 0; } .no-print { display: none !important; } }
-      body { margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    </style></head><body>${content.innerHTML}</body></html>`);
-    win.document.close();
-    setTimeout(() => { win.print(); win.close(); }, 500);
-  };
+      html, body { margin: 0 !important; padding: 0 !important; background: #fff !important; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .no-print { display: none !important; }
+      .resume-wrapper { display: block !important; padding: 0 !important; background: #fff !important; min-height: 0 !important; }
+      .resume-page { width: 210mm !important; min-height: 0 !important; margin: 0 !important; box-shadow: none !important; border-radius: 0 !important; overflow: visible !important; }
+    }
+  `;
 
   const s = {
     wrapper: { minHeight: "100vh", background: "#f5f5f4", display: "flex", flexDirection: "column", alignItems: "center", padding: "20px 16px" },
@@ -237,8 +238,9 @@ export default function ResumeEditor() {
   };
 
   return (
-    <div style={s.wrapper}>
-      <div style={s.toolbar}>
+    <div className="resume-wrapper" style={s.wrapper}>
+      <style>{printCss}</style>
+      <div className="no-print" style={s.toolbar}>
         {Object.entries(themes).map(([k, v]) => (
           <button key={k} style={s.btn(version === k)} onClick={() => setVersion(k)}>{v.label}</button>
         ))}
@@ -250,9 +252,9 @@ export default function ResumeEditor() {
           <span>&#128438;</span> Export PDF
         </button>
       </div>
-      <p style={s.hint}>Click any text to edit it inline. Switch versions above. Export as PDF when done.</p>
+      <p className="no-print" style={s.hint}>Click any text to edit it inline. Switch versions above. Export as PDF when done.</p>
 
-      <div ref={resumeRef} style={s.page}>
+      <div ref={resumeRef} className="resume-page" style={s.page}>
         <div style={s.topBar} />
 
         {/* Header */}
