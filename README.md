@@ -1,57 +1,59 @@
-```mermaid
-flowchart LR
-  subgraph Client
-    Web[Next.js Web App]
-    Ext[Browser Extension]
-  end
-  subgraph Backend
-    BFF[BFF/API – FastAPI or Node]
-    Auth[Auth Service]
-    Jobs[Job Aggregator Service]
-    Match[Matching/Scoring Service]
-    Gen[GenAI Orchestrator]
-    Apply[Application Orchestrator]
-  end
+# Resume Editor
 
-  subgraph Infra[Platform]
-    DB[(Postgres)]
-    Vec[(Vector DB)]
-    Cache[(Redis)]
-    Queue{{SQS/Rabbit}}
-    Storage[(S3/Blob)]
-    Events[(Event Bus)]
-    Metrics[(Prometheus/Grafana)]
-    Secrets[[Secrets Manager]]
-  end
+Interactive resume editor with 3 version themes, inline editing, and PDF export.
 
-  subgraph Integrations
-    ATS[(Greenhouse/Lever/Ashby APIs)]
-    Email[(IMAP/SMTP or Provider API)]
-    IdP[(Google OAuth)]
-    LLM[(Anthropic Claude / OpenAI)]
-  end
+## Deploy to GitHub Pages — Step by Step
 
-  Web <--> BFF
-  Ext <--> BFF
+### 1. Create a GitHub repo
 
-  BFF --> Auth
-  BFF --> Jobs
-  BFF --> Match
-  BFF --> Gen
-  BFF --> Apply
+Go to [github.com/new](https://github.com/new) and create a new repo called `resume-editor` (or any name you like).
 
-  Jobs --> Queue
-  Apply --> Queue
-  Match --> Vec
-  Gen --> Storage
+### 2. Update the base path
 
-  BFF --> DB
-  BFF --> Cache
-  BFF --> Storage
-  BFF --> Events
+Open `vite.config.js` and change the `base` value to match your repo name:
 
-  BFF --> ATS
-  BFF --> Email
-  BFF --> IdP
-  Gen --> LLM
+```js
+base: '/your-repo-name/',
 ```
+
+### 3. Push the code
+
+```bash
+cd resume-editor
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/resume-editor.git
+git push -u origin main
+```
+
+### 4. Enable GitHub Pages
+
+1. Go to your repo → **Settings** → **Pages**
+2. Under **Build and deployment**, set Source to **GitHub Actions**
+3. That's it — the workflow will auto-run on push
+
+### 5. Access your site
+
+After the workflow completes (~1-2 minutes), your resume editor will be live at:
+
+```
+https://YOUR_USERNAME.github.io/resume-editor/
+```
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+Opens at `http://localhost:5173`
+
+## How to Use
+
+- **Switch versions** — Click the tabs at the top (Senior Android / Eng. Tech Lead / Fintech)
+- **Edit any text** — Click on any text field to edit it inline
+- **Upload photo** — Click the photo placeholder or the Upload button
+- **Export PDF** — Click "Export PDF" button → Save as PDF from the print dialog
